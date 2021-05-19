@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <meta charset="UTF-8">
+    <title>Company Sign Up</title>
+    <link rel="stylesheet" th:href="@{/css/form.css}">
+    <link rel="stylesheet" th:href="@{/css/popover.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/font-awesome.css}">
+    <link rel="stylesheet" th:href="@{/css/overall.css}">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+</head>
+<body th:style="'background: url(/images/bg1.jpg) no-repeat center center fixed;'">
+<header class="header-area header-sticky">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <nav class="main-nav">
+                    <!-- ***** Logo Start ***** -->
+                    <a th:href="@{/}" class="logo">
+                        PLACEMENT PORTAL
+                    </a>
+                    <!-- ***** Logo End ***** -->
+                    <!-- ***** Menu Start ***** -->
+                    <ul class="nav">
+                        <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
+                        <li class="scroll-to-section"><a href="#about">About</a></li>
+                        <li class="scroll-to-section"><a href="#contact-us">Contact Us</a></li>
+                        <div class="search-icon">
+                            <a href="#search"><i class="fa fa-search"></i></a>
+                        </div>
+                    </ul>
+                    <a class='menu-trigger'>
+                        <span>Menu</span>
+                    </a>
+                    <!-- ***** Menu End ***** -->
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+<div id="SignUpForm">
+<h1 id="heading">Company Signup</h1>
+<form autocomplete="off" action="#" th:action="@{/addcompany}" th:object="${companyInstance}" method="post">
+    <p>Name: <input type="text" id="name" th:field="*{companyName}"></p>
+    <p>Headquarters: <input type="text" th:field="*{headquarters}"></p>
+    <p>Branch: <input type="text" id="branch" onkeyup="makeAjaxCallCheckBranch()" th:field="*{branch}"></p>
+    <span class="hidden" id="taken">Branch has been registered already. Try logging in</span>
+    <p>Established on: <input type="number" min="1900" max="2021" th:field="*{year}"/></p>
+    <p>HR Username: <input type="text" th:field="*{HR}"></p>
+    <p>Email: <input type="email" onkeyup="makeAjaxCallCheckEmail()" id="email" name="email" th:field="*{email}"></p>
+    <span id="availEmail" class="hidden">Email Available</span>
+    <span class="hidden" id="takenEmail">An account associated with this email is already present. Try logging in</span>
+    <p>About: <br><textarea id="about" th:field="*{about}" name="about" rows="5" cols="77"
+                            placeholder="Few points about what your company does"></textarea></p>
+    <div class="popover__wrapper">
+        <p>Password: <input type="password" class="popover__title" id="password"
+                            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                            title="Must contain at least one number and one uppercase and lowercase letter, and at
+                        least 8 or more characters" required th:field="*{password}"></p>
+        <i class="far fa-eye" id="togglePassword"></i>
+        <div  class="popover__content">
+            <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
+            <p id="capital" class="invalid">A <b>uppercase</b> letter</p>
+            <p id="number" class="invalid">A <b>number</b></p>
+            <p id="length" class="invalid">Minimum <b>8 characters</b></p>
+        </div>
+    </div>
+    <div id="submit">
+        <p><input type="submit" id="submit_btn" value="Submit"/><input id="reset" type="reset" value="Reset"></p>
+    </div>
+</form>
+</div>
+<script type="text/javascript">
+    var branchsatisfied = false;
+    var emailsatisfied = false;
+    function makeAjaxCallCheckBranch(){
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
+        var headers = {};
+        headers[header] = token;
+        var name = $("#branch").val();
+        if(name.length>0) {
+            var argument = $("#name").val()+' '+$("#branch").val();
+            $.ajax({
+                type: "POST",
+                url: "/verifyCompanyBranch",
+                cache: false,
+                data: argument,
+                headers: headers,
+                success: function (response) {
+                    // if (response) {
+                    //     document.getElementById("available").classList.remove("hidden")
+                    //     document.getElementById("available").classList.add("Available")
+                    //     const timeout = document.getElementById('available')
+                    //     var taken = document.getElementById('taken')
+                    //     taken.style.display = 'none'
+                    //     timeout.style.display = 'block'
+                    //     namesatisfied = true;
+                    // }
+                    if (response) {
+                        document.getElementById("taken").classList.remove("hidden")
+                        document.getElementById("taken").classList.add("notAvailable")
+                        const timeout = document.getElementById('taken')
+                        timeout.style.display = 'block'
+                        branchsatisfied = false;
+                    }
+                    else{
+                        const timeout = document.getElementById('taken')
+                        timeout.style.display = 'none'
+                        timeout.classList.add("hidden")
+                        branchsatisfied = true;
+                    }
+                },
+                error: function (jqXHR, exception) {
+                    var msg = '';
+                    if (jqXHR.status === 0) {
+                        msg = 'Could not connect.\n Verify Network.';
+                    } else if (jqXHR.status == 404) {
+                        msg = 'Requested page not found. [404]';
+                    } else if (jqXHR.status == 500) {
+                        msg = 'Internal Server Error [500].';
+                    } else if (exception === 'parsererror') {
+                        msg = 'Requested JSON parse failed.';
+                    } else if (exception === 'timeout') {
+                        msg = 'Time out error.';
+                    } else if (exception === 'abort') {
+                        msg = 'Ajax request aborted.';
+                    } else {
+                        msg = 'Uncaught Error.\n' + jqXHR.responseText;
+                    }
+                    alert(msg);
+                },
+            });
+        }
+    }function makeAjaxCallCheckEmail() {
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
+        var headers = {};
+        headers[header] = token;
+        var email = $("#email").val();
+        if(email.length>0) {
+            $.ajax({
+                type: "POST",
+                url: "/verifyCompanyEmail",
+                cache: false,
+                data: $("#email").val(),
+                headers: headers,
+                success: function (response) {
+                    if (!response) {
+                        emailsatisfied=false;
+                        document.getElementById("takenEmail").classList.remove("hidden")
+                        document.getElementById("takenEmail").classList.add("notAvailable")
+                        const timeout = document.getElementById('takenEmail')
+                        var taken = document.getElementById('availEmail')
+                        taken.style.display = 'none'
+                        timeout.style.display = 'block'
+                    } else{
+                        document.getElementById("availEmail").classList.remove("hidden")
+                        document.getElementById("availEmail").classList.add("Available")
+                        const timeout = document.getElementById('availEmail')
+                        var taken = document.getElementById('takenEmail')
+                        taken.style.display = 'none'
+                        timeout.style.display = 'block'
+                        emailsatisfied = true;
+                    }
+                },
+                error: function (jqXHR, exception) {
+                    var msg = '';
+                    if (jqXHR.status === 0) {
+                        msg = 'Could not connect.\n Verify Network.';
+                    } else if (jqXHR.status == 404) {
+                        msg = 'Requested page not found. [404]';
+                    } else if (jqXHR.status == 500) {
+                        msg = 'Internal Server Error [500].';
+                    } else if (exception === 'parsererror') {
+                        msg = 'Requested JSON parse failed.';
+                    } else if (exception === 'timeout') {
+                        msg = 'Time out error.';
+                    } else if (exception === 'abort') {
+                        msg = 'Ajax request aborted.';
+                    } else {
+                        msg = 'Uncaught Error.\n' + jqXHR.responseText;
+                    }
+                    alert(msg);
+                },
+            });
+        }
+    }
+    var myInput = document.getElementById("password");
+    var letter = document.getElementById("letter");
+    var capital = document.getElementById("capital");
+    var number = document.getElementById("number");
+    var length = document.getElementById("length");
+    var submit = document.getElementById("submit_btn");
+
+    submit.onclick = function (){
+        if(!namesatisfied){
+            alert("Username already taken. Enter another name")
+            event.preventDefault();
+        }
+        else if(!emailsatisfied){
+            alert("Email already registered with another account. Enter new email or try logging in with this one.")
+            event.preventDefault();
+        }
+    }
+    // When the user clicks on the password field, show the message box
+    myInput.onfocus = function() {
+        document.getElementById("message").style.display = "block";
+    }
+
+    // When the user clicks outside of the password field, hide the message box
+    myInput.onblur = function() {
+        document.getElementById("message").style.display = "none";
+    }
+
+    // When the user starts to type something inside the password field
+    myInput.onkeyup = function() {
+        // Validate lowercase letters
+        var lowerCaseLetters = /[a-z]/g;
+        if(myInput.value.match(lowerCaseLetters)) {
+            letter.classList.remove("invalid");
+            letter.classList.add("valid");
+        } else {
+            letter.classList.remove("valid");
+            letter.classList.add("invalid");
+        }
+
+        // Validate capital letters
+        var upperCaseLetters = /[A-Z]/g;
+        if(myInput.value.match(upperCaseLetters)) {
+            capital.classList.remove("invalid");
+            capital.classList.add("valid");
+        } else {
+            capital.classList.remove("valid");
+            capital.classList.add("invalid");
+        }
+
+        // Validate numbers
+        var numbers = /[0-9]/g;
+        if(myInput.value.match(numbers)) {
+            number.classList.remove("invalid");
+            number.classList.add("valid");
+        } else {
+            number.classList.remove("valid");
+            number.classList.add("invalid");
+        }
+
+        // Validate length
+        if(myInput.value.length >= 8) {
+            length.classList.remove("invalid");
+            length.classList.add("valid");
+        } else {
+            length.classList.remove("valid");
+            length.classList.add("invalid");
+        }
+    }
+    const togglePassword = document.querySelector('#togglePassword');
+    const password = document.querySelector('#password');
+    togglePassword.addEventListener('click', function (e) {
+        // toggle the type attribute
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        // toggle the eye slash icon
+        this.classList.toggle('fa-eye-slash');
+    });
+</script>
+<script>
+    var x = document.getElementsByTagName("input");
+    var i;
+    for (i = 0; i < x.length; i++) {
+        x[i].required=true;
+    }
+    x = document.getElementsByTagName("textarea");
+    for (i = 0; i < x.length; i++) {
+        x[i].required=true;
+    }
+</script>
+</body>
+</html>

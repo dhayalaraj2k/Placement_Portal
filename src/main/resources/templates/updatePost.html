@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>Update Post</title>
+  <link rel="stylesheet" th:href="@{/css/form.css}">
+  <link rel="stylesheet" th:href="@{/css/popover.css}">
+  <link href="https://fonts.googleapis.com/css?family=Raleway:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+  <link rel="stylesheet" th:href="@{/css/font-awesome.css}">
+  <link rel="stylesheet" th:href="@{/css/overall.css}">
+  <link rel="stylesheet" th:href="@{/css/final.css}">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+</head>
+<body th:style="'background: url(/images/bg3.jpg) no-repeat center center fixed;'">
+<header class="header-area header-sticky">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <nav class="main-nav">
+          <!-- ***** Logo Start ***** -->
+          <a th:href="@{/}" class="logo">
+            PLACEMENT PORTAL
+          </a>
+          <!-- ***** Logo End ***** -->
+          <!-- ***** Menu Start ***** -->
+          <ul class="nav">
+            <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
+            <li class="scroll-to-section"><a href="#about">About</a></li>
+            <li class="scroll-to-section"><a th:href="@{/companylogout}">Logout</a></li>
+          </ul>
+          <a class='menu-trigger'>
+            <span>Menu</span>
+          </a>
+          <!-- ***** Menu End ***** -->
+        </nav>
+      </div>
+    </div>
+  </div>
+</header>
+<div id="LoginForm">
+  <h1>Update Posting</h1>
+  <form action="#" th:action="@{/updatePost}" th:object="${posting}" method="post">
+    <input type="hidden" th:value="*{companyName}" id="companyName" name="companyName">
+    <input type="hidden" th:value="*{companyId}" id="comapnyId" name="companyId">
+    <input type="hidden" th:value="*{id}" id="id" name="id">
+    <input type="hidden" th:value="*{companyEmail}" id="companyEmail" name="companyEmail">
+    <p>Posting Title: <input type="text" th:field="*{postingTitle}"></p>
+    <p>Description: <input type="text" th:field="*{description}"></p>
+    <p>Requirements: <input type="text" th:field="*{requirements}"></p>
+    <p>Posting Type:
+      <ul id="postType">
+        <li>
+          <input type="radio" name="postType" id="internship" value="Internship" th:field="*{postingType}">
+          <label for="internship">Internship</label>
+        </li>
+        <li>
+          <input type="radio" name="postType" value="Full Time Employment" id="fte" th:field="*{postingType}">
+          <label for="fte">Full Time Employment</label>
+        </li>
+      </ul>
+    </p>
+    <p>Deadline: <input type="date" id="deadlineStr" th:field="*{deadlineStr}"></p>
+    <p>Eligible CGPA: <input type="text" th:field="*{eligibleCGPA}"></p>
+    <p><input type="submit" class="postButton" value="Submit"><input type="reset" class="postButton" value="Reset"></p>
+  </form>
+  <div class="three-buttons">
+    <a th:href="@{/viewposting}" class="main-filled-button buttons">View Postings</a>
+    <a th:href="@{/addposting}" class="main-filled-button buttons">Add Posting</a>
+    <a th:href="@{/editposting}" class="main-filled-button buttons">Edit Posting</a>
+    <a th:href="@{/applicants}" class="main-filled-button buttons">View Applicants</a>
+    <br><br><br>
+  </div>
+</div>
+  <script>
+    $(function(){
+      var dtToday = new Date();
+      var month = dtToday.getMonth() + 1;
+      var day = dtToday.getDate() + 1;
+      var year = dtToday.getFullYear();
+      if(month < 10)
+        month = '0' + month.toString();
+      if(day < 10)
+        day = '0' + day.toString();
+      var maxDate = year + '-' + month + '-' + day;
+      $('#deadlineStr').attr('min', maxDate);
+    });
+  </script>
+  <script>
+    var x = document.getElementsByTagName("input");
+    var i;
+    for (i = 0; i < x.length; i++) {
+      x[i].required=true;
+    }
+    x = document.getElementsByTagName("textarea");
+    for (i = 0; i < x.length; i++) {
+      x[i].required=true;
+    }
+  </script>
+</body>
+</html>

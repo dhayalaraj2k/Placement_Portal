@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>Apply</title>
+  <link rel="stylesheet" th:href="@{/css/form.css}">
+  <link rel="stylesheet" th:href="@{/css/popover.css}">
+  <link href="https://fonts.googleapis.com/css?family=Raleway:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+  <link rel="stylesheet" th:href="@{/css/font-awesome.css}">
+  <link rel="stylesheet" th:href="@{/css/overall.css}">
+  <link rel="stylesheet" th:href="@{/css/final.css}">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+</head>
+<body th:style="'background: url(/images/bg3.jpg) no-repeat center center fixed;'">
+<header class="header-area header-sticky">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <nav class="main-nav">
+          <!-- ***** Logo Start ***** -->
+          <a th:href="@{/}" class="logo">
+            PLACEMENT PORTAL
+          </a>
+          <!-- ***** Logo End ***** -->
+          <!-- ***** Menu Start ***** -->
+          <ul class="nav">
+            <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
+            <li class="scroll-to-section"><a href="#about">About</a></li>
+            <li class="scroll-to-section"><a th:href="@{/studentlogout}">Logout</a></li>
+          </ul>
+          <a class='menu-trigger'>
+            <span>Menu</span>
+          </a>
+          <!-- ***** Menu End ***** -->
+        </nav>
+      </div>
+    </div>
+  </div>
+</header>
+<div id="LoginForm">
+  <table class="viewpostingTable styled-table">
+    <tbody>
+    <th:block>
+      <tr><td class="viewposting">Company Id</td><td class="viewposting" th:text="${posting.companyId}"></td></tr>
+      <tr><td class="viewposting">Company Name</td><td class="viewposting" th:text="${posting.companyName}"></td></tr>
+      <!--            <td th:text="${posting.companyEmail}"></td>-->
+      <tr><td class="viewposting">Title</td><td class="viewposting" th:text="${posting.postingTitle}"></td></tr>
+      <tr><td class="viewposting">Company Id</td><td class="viewposting" th:text="${posting.description}"></td></tr>
+      <tr><td class="viewposting">Type</td><td class="viewposting" th:text="${posting.postingType}"></td></tr>
+      <tr><td class="viewposting">Eligible CGPA</td><td class="viewposting"
+                                                     th:text="${posting.eligibleCGPA}"></td></tr>
+      <tr><td class="viewposting">Requirements</td><td class="viewposting" th:text="${posting.requirements}"></td></tr>
+      <tr><td class="viewposting">Posted On</td><td class="viewposting" th:text="${posting.postedOn}"></td></tr>
+      <form method="post" th:object="${application}" th:action="@{/applyPosting/{id}(id=${posting.id})}">
+        <tr><td class="viewposting">Statement of purpose</td><td class="viewposting">
+      <textarea name="reason" th:field="*{reason}" rows="2" cols="70"
+                placeholder="Tell the recruiter why you'd be a perfect match for the company in two or three sentences"></textarea></td></tr>
+        <tr><td colspan="2"
+                class="applypost"><input class="applicationButton" type="submit" id="submit" value="Apply"></td></tr></form>
+    </th:block>
+    </tbody>
+  </table>
+  <div class="four-buttons">
+    <a th:href="@{/viewallposting}" class="main-filled-button buttons">Postings</a>
+    <a th:href="@{/apply}" class="main-filled-button buttons">Apply</a>
+    <a th:href="@{/viewapplied}" class="main-filled-button buttons">View</a>
+    <a th:href="@{/editapplication}" class="main-filled-button buttons">Edit</a>
+    <br><br><br>
+  </div>
+</div>
+<script>
+  var x = document.getElementsByTagName("input");
+  var i;
+  for (i = 0; i < x.length; i++) {
+    x[i].required=true;
+  }
+  x = document.getElementsByTagName("textarea");
+  for (i = 0; i < x.length; i++) {
+    x[i].required=true;
+  }
+</script>
+</body>
+</html>

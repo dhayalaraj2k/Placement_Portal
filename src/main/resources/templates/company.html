@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link href="https://fonts.googleapis.com/css?family=Raleway:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+  <title>Placement Portal</title>
+  <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+  <link rel="stylesheet" th:href="@{/css/font-awesome.css}">
+  <link rel="stylesheet" th:href="@{/css/index.css}">
+</head>
+<body>
+<header class="header-area header-sticky">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <nav class="main-nav">
+          <a th:href="@{/}" class="logo">
+            PLACEMENT PORTAL
+          </a>
+          <ul class="nav">
+            <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
+            <li class="scroll-to-section"><a href="#about">About</a></li>
+            <li class="scroll-to-section"><a href="#contact-us">Contact Us</a></li>
+            <div class="search-icon">
+              <a href="#search"><i class="fa fa-search"></i></a>
+            </div>
+          </ul>
+          <a class='menu-trigger'>
+            <span>Menu</span>
+          </a>
+        </nav>
+      </div>
+    </div>
+  </div>
+</header>
+<div id="search">
+  <button type="button" class="close">×</button>
+  <form id="contact" action="#" method="get">
+    <fieldset>
+      <input type="search" name="q" placeholder="SEARCH KEYWORD(s)" aria-label="Search through site content">
+    </fieldset>
+    <fieldset>
+      <button type="submit" class="main-button">Search</button>
+    </fieldset>
+  </form>
+</div>
+<div class="main-banner header-text" id="top">
+  <div class="Modern-Slider">
+    <div class="item">
+      <div class="img-fill">
+        <img th:src="@{/images/slide-01.jpg}" alt="">
+        <div class="text-content">
+          <h3>Welcome To Classifieds</h3>
+          <h5>Hire best candidates for your company</h5>
+          <a th:href="@{/companyLogin}" class="main-stroked-button">Login</a>
+          <a th:href="@{/addcompany}" class="main-filled-button">Signup</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6 col-xs-12">
+        <div class="left-text-content">
+          <p>Copyright &copy; 2020 Classifieds., Ltd. </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

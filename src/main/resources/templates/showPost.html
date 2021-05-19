@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Show Post</title>
+    <link rel="stylesheet" th:href="@{/css/form.css}">
+    <link rel="stylesheet" th:href="@{/css/popover.css}">
+    <link href="https://fonts.googleapis.com/css?family=Raleway:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/font-awesome.css}">
+    <link rel="stylesheet" th:href="@{/css/overall.css}">
+    <link rel="stylesheet" th:href="@{/css/final.css}">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+</head>
+<body th:style="'background: url(/images/bg3.jpg) no-repeat center center fixed;'">
+<header class="header-area header-sticky">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <nav class="main-nav">
+                    <!-- ***** Logo Start ***** -->
+                    <a th:href="@{/}" class="logo">
+                        PLACEMENT PORTAL
+                    </a>
+                    <!-- ***** Logo End ***** -->
+                    <!-- ***** Menu Start ***** -->
+                    <ul class="nav">
+                        <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
+                        <li class="scroll-to-section"><a href="#about">About</a></li>
+                        <li class="scroll-to-section"><a href="#projects">Projects</a></li>
+                        <li class="submenu">
+                            <a href="javascript:;">Drop Down</a>
+                            <ul>
+                                <li><a href="">About Us</a></li>
+                                <li><a href="">Features</a></li>
+                                <li><a href="">FAQ's</a></li>
+                                <li><a href="">Blog</a></li>
+                            </ul>
+                        </li>
+                        <li class="scroll-to-section"><a href="#contact-us">Contact Us</a></li>
+                        <div class="search-icon">
+                            <a href="#search"><i class="fa fa-search"></i></a>
+                        </div>
+                    </ul>
+                    <a class='menu-trigger'>
+                        <span>Menu</span>
+                    </a>
+                    <!-- ***** Menu End ***** -->
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+<div id="PostingForm">
+    <h1>View Posting</h1>
+    <table class="viewpostingTable styled-table">
+        <tbody>
+        <th:block>
+            <tr class="viewposting"><td class="viewposting">S.No</td><td class="viewposting">Attribute</td><td
+                    class="viewposting">Value</td></tr>
+            <tr class="viewposting"><td class="viewposting">Company Id</td><td class="viewposting" th:text="${posting.companyId}"></td></tr>
+            <tr class="viewposting"><td class="viewposting">Company Name</td><td class="viewposting" th:text="${posting.companyName}"></td></tr>
+            <tr class="viewposting"><td class="viewposting">Title</td><td class="viewposting" th:text="${posting.postingTitle}"></td></tr>
+            <tr class="viewposting"><td class="viewposting">Description</td><td class="viewposting"
+                                                                      th:text="${posting.description}"></td></tr>
+            <tr class="viewposting"><td class="viewposting">Type</td><td class="viewposting" th:text="${posting.postingType}"></td></tr>
+            <tr class="viewposting"><td class="viewposting">Eligible CGPA</td><td class="viewposting"
+                                                           th:text="${posting.eligibleCGPA}"></td></tr>
+            <tr class="viewposting"><td class="viewposting">Requirements</td><td class="viewposting" th:text="${posting.requirements}"></td></tr>
+            <tr class="viewposting"><td class="viewposting">Posted On</td><td class="viewposting" th:text="${posting.postedOn}"></td></tr>
+            <tr class="viewposting"><td class="viewposting">Deadline</td><td class="viewposting" th:text="${posting.deadline}"></td></tr>
+<!--            <tr class="viewposting"><td colspan="3" id="viewSubmit" class="viewposting"><a th:href="@{/viewposting}">-->
+<!--                <input type="button" id="submit" value="View all posts"></a></td></tr>-->
+        </th:block>
+        </tbody>
+    </table>
+    <div class="three-buttons">
+        <a th:href="@{/viewposting}" class="main-filled-button buttons">View Postings</a>
+        <a th:href="@{/addposting}" class="main-filled-button buttons">Add Posting</a>
+        <a th:href="@{/editposting}" class="main-filled-button buttons">Edit Posting</a>
+        <a th:href="@{/applicants}" class="main-filled-button buttons">View Applicants</a>
+    </div>
+    <script>
+        var tables = document.getElementsByTagName('table');
+        var table = tables[tables.length - 1];
+        var rows = table.rows;
+        for(var i = 1, td; i < rows.length; i++){
+            td = document.createElement('td');
+            td.appendChild(document.createTextNode(i));
+            rows[i].insertBefore(td, rows[i].firstChild);
+        }
+    </script>
+</div>
+</body>
+</html>

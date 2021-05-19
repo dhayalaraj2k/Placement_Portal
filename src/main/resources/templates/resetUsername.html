@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <meta charset="UTF-8">
+    <title>Reset Username</title>
+    <link rel="stylesheet" th:href="@{/css/form.css}">
+    <link rel="stylesheet" th:href="@{/css/popover.css}">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+</head>
+<body>
+<form autocomplete="off" th:action="@{/resetUser}" method="post" th:object="${forgotInstance}">
+    <p>Username:  <input type="text" onkeyup="makeAjaxCallName()" id="username" name="username"
+                         th:field="*{username}"></p><span id="available" class="hidden">Username Available</span>
+    <span class="hidden" id="taken">Username Taken</span>
+    <input type="hidden" class="form-control" th:value="${forgotInstance.token}" id="token"
+           name="token" />
+        <p><input type="submit" id="submit_btn" value="Submit"/><input id="reset" type="reset" value="Reset"></p>
+</form>
+<script type="text/javascript">
+    var namesatisfied = false;
+    var emailsatisfied = false;
+    function makeAjaxCallName(){
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
+        var headers = {};
+        headers[header] = token;
+        var name = $("#username").val();
+        if(name.length>0) {
+            $.ajax({
+                type: "POST",
+                url: "/verifyStudentName",
+                cache: false,
+                data: $("#username").val(),
+                headers: headers,
+                success: function (response) {
+                    if (response) {
+                        document.getElementById("available").classList.remove("hidden")
+                        document.getElementById("available").classList.add("Available")
+                        const timeout = document.getElementById('available')
+                        var taken = document.getElementById('taken')
+                        taken.style.display = 'none'
+                        timeout.style.display = 'block'
+                        namesatisfied = true;
+                    } else {
+                        document.getElementById("taken").classList.remove("hidden")
+                        document.getElementById("taken").classList.add("notAvailable")
+                        const timeout = document.getElementById('taken')
+                        var avail = document.getElementById('available')
+                        avail.style.display = 'none'
+                        timeout.style.display = 'block'
+                        namesatisfied = false;
+                    }
+                },
+                error: function (jqXHR, exception) {
+                    var msg = '';
+                    if (jqXHR.status === 0) {
+                        msg = 'Could not connect.\n Verify Network.';
+                    } else if (jqXHR.status == 404) {
+                        msg = 'Requested page not found. [404]';
+                    } else if (jqXHR.status == 500) {
+                        msg = 'Internal Server Error [500].';
+                    } else if (exception === 'parsererror') {
+                        msg = 'Requested JSON parse failed.';
+                    } else if (exception === 'timeout') {
+                        msg = 'Time out error.';
+                    } else if (exception === 'abort') {
+                        msg = 'Ajax request aborted.';
+                    } else {
+                        msg = 'Uncaught Error.\n' + jqXHR.responseText;
+                    }
+                    alert(msg);
+                },
+            });
+        }
+    }
+</script>
+<script>
+    var x = document.getElementsByTagName("input");
+    var i;
+    for (i = 0; i < x.length; i++) {
+        x[i].required=true;
+    }
+    x = document.getElementsByTagName("textarea");
+    for (i = 0; i < x.length; i++) {
+        x[i].required=true;
+    }
+</script>
+</body>
+</html>

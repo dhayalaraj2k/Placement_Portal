@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>Update Application</title>
+  <link rel="stylesheet" th:href="@{/css/form.css}">
+  <link rel="stylesheet" th:href="@{/css/popover.css}">
+  <link href="https://fonts.googleapis.com/css?family=Raleway:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+  <link rel="stylesheet" th:href="@{/css/font-awesome.css}">
+  <link rel="stylesheet" th:href="@{/css/overall.css}">
+  <link rel="stylesheet" th:href="@{/css/final.css}">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+</head>
+<body th:style="'background: url(/images/bg3.jpg) no-repeat center center fixed;'">
+<header class="header-area header-sticky">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <nav class="main-nav">
+          <!-- ***** Logo Start ***** -->
+          <a th:href="@{/}" class="logo">
+            PLACEMENT PORTAL
+          </a>
+          <!-- ***** Logo End ***** -->
+          <!-- ***** Menu Start ***** -->
+          <ul class="nav">
+            <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
+            <li class="scroll-to-section"><a href="#about">About</a></li>
+            <li class="scroll-to-section"><a th:href="@{/studentlogout}">Logout</a></li>
+          </ul>
+          <a class='menu-trigger'>
+            <span>Menu</span>
+          </a>
+          <!-- ***** Menu End ***** -->
+        </nav>
+      </div>
+    </div>
+  </div>
+</header>
+<div id="updateApplication">
+  <table class="editpostTable">
+    <tbody>
+    <th:block>
+<form action="#" th:action="@{/updateApplication/{id}(id=${id})}" th:object="${application}" method="post">
+  <tr><td class="editpost">Statement of purpose</td><td class="editpost"><textarea rows="2" cols="70"
+  th:field="*{reason}"
+                                                                     placeholder="Tell the recruiter why you'd be a perfect match for the company in two or three sentences"></textarea></td>
+  <tr><td colspan="2"  class="editpost"><input class="applicationButton" type="submit" value="Apply"></td></tr></form>
+    </th:block>
+    </tbody>
+  </table>
+  <div class="four-button">
+    <a th:href="@{/viewallposting}" class="main-filled-button buttons">Postings</a>
+    <a th:href="@{/apply}" class="main-filled-button buttons">Apply</a>
+    <a th:href="@{/viewapplied}" class="main-filled-button buttons">View</a>
+    <a th:href="@{/editapplication}" class="main-filled-button buttons">Edit</a>
+    <br><br><br>
+  </div>
+</div>
+<script>
+  var x = document.getElementsByTagName("input");
+  var i;
+  for (i = 0; i < x.length; i++) {
+    x[i].required=true;
+  }
+  x = document.getElementsByTagName("textarea");
+  for (i = 0; i < x.length; i++) {
+    x[i].required=true;
+  }
+</script>
+</body>
+</html>

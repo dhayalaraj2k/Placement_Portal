@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit posting</title>
+    <link rel="stylesheet" th:href="@{/css/form.css}">
+    <link rel="stylesheet" th:href="@{/css/popover.css}">
+    <link href="https://fonts.googleapis.com/css?family=Raleway:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/font-awesome.css}">
+    <link rel="stylesheet" th:href="@{/css/overall.css}">
+    <link rel="stylesheet" th:href="@{/css/final.css}">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+</head>
+<body th:style="'background: url(/images/bg3.jpg) no-repeat center center fixed;'">
+<header class="header-area header-sticky">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <nav class="main-nav">
+                    <!-- ***** Logo Start ***** -->
+                    <a th:href="@{/}" class="logo">
+                        PLACEMENT PORTAL
+                    </a>
+                    <!-- ***** Logo End ***** -->
+                    <!-- ***** Menu Start ***** -->
+                    <ul class="nav">
+                        <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
+                        <li class="scroll-to-section"><a href="#about">About</a></li>
+                        <li class="scroll-to-section"><a th:href="@{/companylogout}">Logout</a></li>
+                    </ul>
+                    <a class='menu-trigger'>
+                        <span>Menu</span>
+                    </a>
+                    <!-- ***** Menu End ***** -->
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+<div id="PostingForm">
+    <h1>Edit Posting</h1>
+    <table class="viewpostingTable styled-table">
+        <thead>
+        <tr class="viewposting">
+            <th class="viewposting">Id</th>
+            <!--        <th class="viewposting">Company Id</th>-->
+            <th class="viewposting">Company Name</th>
+            <th class="viewposting">Title</th>
+            <th class="viewposting">Type</th>
+            <th class="viewposting">Eligible CGPA</th>
+            <th class="viewposting">Posted On</th>
+            <th class="viewposting">Deadline</th>
+            <th class="viewposting">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="posting : ${postings}">
+            <tr class="viewposting">
+                <!--            <td class="viewposting" th:text="${posting.companyId}"></td>-->
+                <td class="viewposting" th:text="${posting.companyName}"></td>
+                <!--            <td th:text="${posting.companyEmail}"></td>-->
+                <td class="viewposting" th:text="${posting.postingTitle}"></td>
+                <!--            <td th:text="${posting.description}"></td>-->
+                <td class="viewposting" th:text="${posting.postingType}"></td>
+                <td class="viewposting" th:text="${posting.eligibleCGPA}"></td>
+                <!--            <td th:text="${posting.requirements}"></td>-->
+                <td class="viewposting" th:text="${posting.postedOn}"></td>
+                <td class="viewposting" th:text="${posting.deadline}"></td>
+                <td id="viewSubmit" class="viewposting"><a th:href="@{/updatePost/{id}(id=${posting.id})}">
+                    <input type="button" id="submit" value="Edit"></a></td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+    <div class="three-buttons">
+        <a th:href="@{/viewposting}" class="main-filled-button buttons">View Postings</a>
+        <a th:href="@{/addposting}" class="main-filled-button buttons">Add Posting</a>
+        <a th:href="@{/editposting}" class="main-filled-button buttons">Edit Posting</a>
+        <a th:href="@{/applicants}" class="main-filled-button buttons">View Applicants</a>
+    </div>
+    <script>
+        var tables = document.getElementsByTagName('table');
+        var table = tables[tables.length - 1];
+        var rows = table.rows;
+        for(var i = 1, td; i < rows.length; i++){
+            td = document.createElement('td');
+            td.appendChild(document.createTextNode(i));
+            rows[i].insertBefore(td, rows[i].firstChild);
+        }
+    </script>
+    <script>
+        var x = document.getElementsByTagName("input");
+        var i;
+        for (i = 0; i < x.length; i++) {
+            x[i].required=true;
+        }
+        x = document.getElementsByTagName("textarea");
+        for (i = 0; i < x.length; i++) {
+            x[i].required=true;
+        }
+    </script>
+</div>
+</body>
+</html>

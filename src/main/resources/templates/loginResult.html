@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+<p th:text="${string}"/>
+<p th:text="'Session Id: '+${session.studentid}"/>
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Logout" id="logout">
+</form>
+</body>
+</html>
