@@ -82,11 +82,11 @@ public class studentController {
 
         Session session = Session.getInstance(props, new javax.mail.Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("dhayalaraj69@gmail.com", "Dhayalarajat1");
+                return new PasswordAuthentication("", ""); // Your gmail and password to authenticate with smtp server.
             }
         });
         Message msg = new MimeMessage(session);
-        msg.setFrom(new InternetAddress("dhayalaraj69@gmail.com", false));
+        msg.setFrom(new InternetAddress("", false));//Enter the from mail address.
 
         if (choice == 1)
             msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(student.getEmail()));
@@ -270,11 +270,11 @@ public class studentController {
 
         Session session = Session.getInstance(props, new javax.mail.Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("dhayalaraj69@gmail.com", "Dhayalarajat1");
+                return new PasswordAuthentication("", ""); //Enter the gmail and password.
             }
         });
         Message msg = new MimeMessage(session);
-        msg.setFrom(new InternetAddress("dhayalaraj69@gmail.com", false));
+        msg.setFrom(new InternetAddress("", false)); //Enter the from address.
 
         msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(student.getEmail()));
         msg.setSubject("Classifieds Registration");
