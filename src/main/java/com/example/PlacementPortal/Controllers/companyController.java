@@ -165,11 +165,11 @@ public class companyController{
 
         Session session = Session.getInstance(props, new javax.mail.Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("dhayalaraj69@gmail.com", "Dhayalarajat1");
+                return new PasswordAuthentication("", ""); //Enter the gmail and password.
             }
         });
         Message msg = new MimeMessage(session);
-        msg.setFrom(new InternetAddress("dhayalaraj69@gmail.com", false));
+        msg.setFrom(new InternetAddress("", false)); // Enter the from mail address.
 
         msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(company.getEmail()));
         msg.setSubject("Classifieds Registration");
